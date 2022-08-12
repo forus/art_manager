@@ -26,6 +26,7 @@ class ArtItem(models.Model):
     name = models.CharField(max_length=200)
     author = models.CharField(max_length=200)
     creation_date = models.DateField()
+    photo = models.ImageField(null=True)
 
     def __str__(self):
         return f"{self.name} (by {self.author})"
