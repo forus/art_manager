@@ -1,4 +1,5 @@
 from django.db import models
+import datetime
 
 class Building(models.Model):
     address = models.CharField(max_length=200)
@@ -32,10 +33,13 @@ class ArtItem(models.Model):
         return f"{self.name} (by {self.author})"
 
 class ArtLocation(models.Model):
-    class Meta:
-        unique_together = (('art_item', 'spot'),)
-    art_item = models.OneToOneField(ArtItem, primary_key=True, on_delete=models.PROTECT) 
+    """
+    Shows that an art work is/were placed in a certain spot
+    """
+    art_item = models.ForeignKey(ArtItem, on_delete=models.PROTECT)
     spot = models.ForeignKey(Spot, on_delete=models.PROTECT) 
+    start_date = models.DateField()
+    end_date = models.DateField(null=True)
     responsible_person = models.ForeignKey(Person, on_delete=models.RESTRICT)
 
     def __str__(self):
