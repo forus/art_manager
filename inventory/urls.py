@@ -24,12 +24,10 @@ class SpotViewSet(viewsets.ModelViewSet):
     serializer_class = SpotSerializer
 
 router = routers.DefaultRouter()
+router.register(r'users', UserViewSet)
 router.register(r'buildings', BuildingViewSet)
 router.register(r'spots', SpotViewSet)
 
-admin_router = routers.DefaultRouter()
-admin_router.register(r'users', UserViewSet)
-
 urlpatterns = [
-    path('api/', include(admin_router.urls)),
+    path('api/', include(router.urls)),
 ]
