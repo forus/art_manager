@@ -25,6 +25,21 @@ class ArtItem(models.Model):
     def __str__(self):
         return f"{self.name} (by {self.author})"
 
+class ArtBorrowingRequest(models.Model):
+    """
+    Request from a person to borrow an art work
+    """
+    art_item = models.ForeignKey(ArtItem, on_delete=models.PROTECT)
+    spot = models.ForeignKey(Spot, on_delete=models.PROTECT)
+    start_date = models.DateField(null=True)
+    end_date = models.DateField(null=True)
+    reqester = models.ForeignKey(User, on_delete=models.RESTRICT)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f"{self.art_item} at {self.spot} by {self.requester}"
+
 class ArtLocation(models.Model):
     """
     Shows that an art work is/were placed in a certain spot
@@ -34,6 +49,7 @@ class ArtLocation(models.Model):
     start_date = models.DateField()
     end_date = models.DateField(null=True)
     responsible_person = models.ForeignKey(User, on_delete=models.RESTRICT)
+    request = models.OneToOneField(ArtBorrowingRequest, on_delete=models.RESTRICT, null=True)
 
     def __str__(self):
         return f"{self.art_item} at {self.spot}"
