@@ -1,5 +1,5 @@
 from django.db import models
-import datetime
+from django.contrib.auth.models import User
 
 class Building(models.Model):
     address = models.CharField(max_length=200)
@@ -15,13 +15,6 @@ class Spot(models.Model):
 
     def __str__(self):
         return f"${self.building}, {self.room} room, {self.floor} floor"
-
-class Person(models.Model):
-    name = models.CharField(max_length=200)
-    email = models.EmailField()
-
-    def __str__(self):
-        return f"{self.name} ({self.email})"
 
 class ArtItem(models.Model):
     name = models.CharField(max_length=200)
@@ -40,7 +33,7 @@ class ArtLocation(models.Model):
     spot = models.ForeignKey(Spot, on_delete=models.PROTECT) 
     start_date = models.DateField()
     end_date = models.DateField(null=True)
-    responsible_person = models.ForeignKey(Person, on_delete=models.RESTRICT)
+    responsible_person = models.ForeignKey(User, on_delete=models.RESTRICT)
 
     def __str__(self):
         return f"{self.art_item} at {self.spot}"
