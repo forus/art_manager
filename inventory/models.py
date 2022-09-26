@@ -30,12 +30,13 @@ class ArtBorrowingRequest(models.Model):
     Request from a person to borrow an art work
     """
     art_item = models.ForeignKey(ArtItem, on_delete=models.PROTECT)
-    spot = models.ForeignKey(Spot, on_delete=models.PROTECT)
+    spot = models.ForeignKey(Spot, on_delete=models.PROTECT, null=True)
     start_date = models.DateField(null=True)
     end_date = models.DateField(null=True)
     reqester = models.ForeignKey(User, on_delete=models.RESTRICT)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    request_text = models.CharField(max_length=1000, null=True)
 
     def __str__(self):
         return f"{self.art_item} at {self.spot} by {self.requester}"
