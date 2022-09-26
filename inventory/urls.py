@@ -1,5 +1,7 @@
 from django.urls import include, path
 
+from inventory.viewsets import UserViewSet
+
 from .models import Building, Spot
 from rest_framework import routers, serializers, viewsets
 
@@ -25,6 +27,9 @@ router = routers.DefaultRouter()
 router.register(r'buildings', BuildingViewSet)
 router.register(r'spots', SpotViewSet)
 
+admin_router = routers.DefaultRouter()
+admin_router.register(r'users', UserViewSet)
+
 urlpatterns = [
-    path('', include(router.urls)),
+    path('api/', include(admin_router.urls)),
 ]
