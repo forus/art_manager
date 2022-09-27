@@ -24,6 +24,7 @@ Here is the list of users preloaded to the system.
 Here are groups and what users that belong to them allowed do on model entities:
 
 | group | `Building` | `Spots` | `ArtItems` | `ArtLocation` | `ArtBorrowingRequest` |
+| --- | --- | --- | --- | --- | --- |
 | `municipality_workers` | `view` | `view` | `view` | `view` | `view` + `add` |
 | `art_managers` | `view` + `add` + `change` + `delete` | `view` + `add` + `change` + `delete` | `view` + `add` + `change` + `delete` | `view` + `add` + `change` + `delete` | `view` + `delete` |
 
