@@ -12,20 +12,20 @@ class UsersTests(APITestCase):
 
   def test_list_users_as_anonymous(self):
     response = self.client.get('/inventory/api/users/')
-    self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
+    self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
 
   def test_post_user_as_anonymous(self):
     response = self.client.post('/inventory/api/users/',
       { 'username': 'test', 'email': 'test@example.com' }, format='json')
-    self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
+    self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
 
   def test_delete_user_as_anonymous(self):
     response = self.client.delete('/inventory/api/users/1/')
-    self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
+    self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
 
   def test_list_art_locations_as_anonymous(self):
     response = self.client.get('/inventory/api/art-locations/')
-    self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
+    self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
 
   def test_post_art_locations_as_anonymous(self):
     response = self.client.post('/inventory/api/art-locations/',
@@ -34,11 +34,11 @@ class UsersTests(APITestCase):
                                  'start_date': '2025-01-01',
                                  'responsible_person': 'http://testserver/inventory/api/users/1/'},
                                  format='json')
-    self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
+    self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
 
   def test_delete_art_locations_as_anonymous(self):
     response = self.client.delete('/inventory/api/art-locations/1/')
-    self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
+    self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
 
   """
    Test for a Municipality worker
@@ -129,14 +129,14 @@ class UsersTests(APITestCase):
                                  'responsible_person': 'http://testserver/inventory/api/users/1/'},
                                 format='json')
     self.client.logout()
-    self.assertEqual(response.status_code, status.HTTP_200_OK)
+    self.assertEqual(response.status_code, status.HTTP_201_CREATED)
 
   def test_delete_art_locations_as_art_manager(self):
     self.client.login(
         username=sjoerd['username'], password=sjoerd['password'])
     response = self.client.delete('/inventory/api/art-locations/1/')
     self.client.logout()
-    self.assertEqual(response.status_code, status.HTTP_200_OK)
+    self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
 
   """
    Test for an Admin
@@ -155,14 +155,14 @@ class UsersTests(APITestCase):
     response = self.client.post('/inventory/api/users/',
                                 {'username': 'test', 'email': 'test@example.com'}, format='json')
     self.client.logout()
-    self.assertEqual(response.status_code, status.HTTP_200_OK)
+    self.assertEqual(response.status_code, status.HTTP_201_CREATED)
 
   def test_delete_user_as_admin(self):
     self.client.login(
         username=admin['username'], password=admin['password'])
     response = self.client.delete('/inventory/api/users/1/')
     self.client.logout()
-    self.assertEqual(response.status_code, status.HTTP_200_OK)
+    self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
 
   def test_list_art_locations_as_admin(self):
     self.client.login(
@@ -181,11 +181,11 @@ class UsersTests(APITestCase):
                                  'responsible_person': 'http://testserver/inventory/api/users/1/'},
                                 format='json')
     self.client.logout()
-    self.assertEqual(response.status_code, status.HTTP_200_OK)
+    self.assertEqual(response.status_code, status.HTTP_201_CREATED)
 
   def test_delete_art_locations_as_admin(self):
     self.client.login(
         username=admin['username'], password=admin['password'])
     response = self.client.delete('/inventory/api/art-locations/1/')
     self.client.logout()
-    self.assertEqual(response.status_code, status.HTTP_200_OK)
+    self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
