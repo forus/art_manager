@@ -68,3 +68,11 @@ python manage.py test
 ```
 
 As you see most of them are failing. After fixing the authrorization all of them has to pass. You can the above testing command iteratively, after each change, to see whether you've impoved the code towards the goal.
+
+## 1.4. Setting the correct permission policy
+
+The permission policy can be set globally (in `settings.py`) or for each APIView/ViewSet.
+Read more on this [here](https://www.django-rest-framework.org/api-guide/permissions/#setting-the-permission-policy).
+Django REST framework comes with multiple permission classes. Read about them [here](https://www.django-rest-framework.org/api-guide/permissions/#api-reference) and set the correct one for your application to fix the authorization for the app according with the model permissions.
+
+All tests have to pass after you'll set the correct policy.
