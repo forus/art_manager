@@ -86,6 +86,17 @@ class UsersTests(APITestCase):
     self.client.logout()
     self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
 
+  def test_create_art_borrowing_request_as_municipality_worker(self):
+    self.client.login(
+        username=janneke['username'], password=janneke['password'])
+    response = self.client.post('/inventory/api/art-borrowing-request/',
+                                {'art_item': 'http://testserver/inventory/api/art-items/1/',
+                                 'spot': 'http://testserver/inventory/api/spots/1/',
+                                 'start_date': '2025-01-01'},
+                                 format='json')
+    self.client.logout()
+    self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+
   """
    Test for a Art manager
   """

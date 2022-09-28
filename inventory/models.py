@@ -33,7 +33,7 @@ class ArtBorrowingRequest(models.Model):
     spot = models.ForeignKey(Spot, on_delete=models.PROTECT, null=True)
     start_date = models.DateField(null=True)
     end_date = models.DateField(null=True)
-    requester = models.ForeignKey(User, on_delete=models.RESTRICT)
+    requester = models.ForeignKey(User, on_delete=models.RESTRICT, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     request_text = models.CharField(max_length=1000, null=True)
