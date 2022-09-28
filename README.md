@@ -1,6 +1,6 @@
 # Art Manager
 
-## 1. Fix Authorization
+## 1. Fix Authorization. Improve Autentication.
 
 The current REST api of the application does not have authorization mechanism configured. Without letting system know who you are any user can perform not just read, but creation, modification or removal of entitities via any REST endpoint of the system at the moment.
 Your first task will be to fix the authorization mechanism as described below.
@@ -88,3 +88,25 @@ Start with reading [the documentation on object level permissions](https://www.d
 Check [the tests](./inventory/tests.py). There are two tests that are skipped. It's `test_delete_art_borrowing_request_as_municipality_worker` and `test_delete_art_borrowing_request_as_another_municipality_worker`. Remove `@unittest.skip` line and run all tests. You will see those tests failing. After implementing the object level permissions correctly they have to pass.
 
 Check examples of custom permission definition [here](https://www.django-rest-framework.org/api-guide/permissions/#custom-permissions).
+
+## 1.6. Third assignment. Adding Token authentication to the application
+
+Django has basic authentication enabled by default.
+
+It gives you a possibility to query api from other clients passing username and password information. Here is example of curl:
+
+```
+curl -u 'admin:admin!12345' http://127.0.0.1:8000/inventory/api/users/
+```
+Try it on your own instance.
+
+It's not recomended to use basic authentication in production though. The main concern is that you are exposing password by sending it with each request.
+As a solution we can implement the [token authentication](https://www.django-rest-framework.org/api-guide/authentication/#tokenauthentication). The advantage is that tokens can be revoked (removed) easily later closing the access for the client.
+
+With token authentication the above curl request could be made like this: 
+
+```
+curl -X GET http://127.0.0.1:8000/inventory/api/users/ -H 'Authorization: Token 9944b09199c62bcf9418tu43545sdsdfgfg'
+```
+
+After implementing token authentication make sure the basic authentication is switched off.
