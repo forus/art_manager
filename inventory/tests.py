@@ -6,6 +6,7 @@ from django.contrib.auth.models import User
 from inventory.models import ArtBorrowingRequest, ArtItem
 
 janneke = {'username': 'janneke', 'password': 'janneke!12345'}
+jeroen = {'username': 'jeroen', 'password': 'jeroen!12345'}
 sjoerd = {'username': 'sjoerd', 'password': 'sjoerd!12345'}
 admin = {'username': 'admin', 'password': 'admin!12345'}
 
@@ -191,6 +192,21 @@ class UsersTests(APITestCase):
         f"/inventory/api/art-borrowing-request/{art_borrowing_request.id}/")
     self.client.logout()
     self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
+
+  @unittest.skip("Has to be implemented with object level permissions")
+  # see https://www.django-rest-framework.org/api-guide/permissions/#object-level-permissions
+  def test_delete_art_borrowing_request_as_another_municipality_worker(self):
+    art_item=list(ArtItem.objects.all())[0]
+    janneke_model=User.objects.get(username='janneke')
+    art_borrowing_request=ArtBorrowingRequest.objects.create(art_item=art_item, requester=janneke_model)
+    art_borrowing_request.save()
+
+    self.client.login(
+        username=jeroen['username'], password=jeroen['password'])
+    response = self.client.delete(
+        f"/inventory/api/art-borrowing-request/{art_borrowing_request.id}/")
+    self.client.logout()
+    self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
 
   """
    Test for an Admin
