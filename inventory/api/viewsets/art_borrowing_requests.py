@@ -1,11 +1,13 @@
 from rest_framework import viewsets, status
 from rest_framework.response import Response
 from inventory.models import ArtBorrowingRequest
+from inventory.permissions import AllowDeleteArtBorrowingRequestIfOwner
 from inventory.api.serializers import ArtBorrowingRequestSerializer
 
 class ArtBorrowingRequestViewSet(viewsets.ModelViewSet):
     queryset = ArtBorrowingRequest.objects.all()
     serializer_class = ArtBorrowingRequestSerializer
+    permission_classes = [ AllowDeleteArtBorrowingRequestIfOwner ]
 
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)

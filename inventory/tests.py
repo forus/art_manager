@@ -178,8 +178,6 @@ class UsersTests(APITestCase):
     self.client.logout()
     self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
 
-  @unittest.skip("Has to be implemented with object level permissions")
-  # see https://www.django-rest-framework.org/api-guide/permissions/#object-level-permissions
   def test_delete_art_borrowing_request_as_municipality_worker(self):
     art_item=list(ArtItem.objects.all())[0]
     janneke_model=User.objects.get(username='janneke')
@@ -193,8 +191,6 @@ class UsersTests(APITestCase):
     self.client.logout()
     self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
 
-  @unittest.skip("Has to be implemented with object level permissions")
-  # see https://www.django-rest-framework.org/api-guide/permissions/#object-level-permissions
   def test_delete_art_borrowing_request_as_another_municipality_worker(self):
     art_item=list(ArtItem.objects.all())[0]
     janneke_model=User.objects.get(username='janneke')
