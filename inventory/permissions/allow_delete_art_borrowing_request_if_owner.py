@@ -7,5 +7,8 @@ class AllowDeleteArtBorrowingRequestIfOwner(DjangoModelPermissions):
     """
 
     def has_object_permission(self, request, view, obj):
-        return obj.requester == request.user and request.method == 'DELETE' \
-            or self.has_permission(request, view)
+        is_municipality_worker = bool(
+            request.user.groups.filter(name='municipality_workers'))
+        if is_municipality_worker and request.method == 'DELETE' and obj.requester != request.user:
+            return False
+        return self.has_permission(request, view)
